@@ -25,6 +25,8 @@ public class PlayerMove : MonoBehaviour
     // 필요 속성:
     // - 점프 파워 값
     public float JumpPower = 10f;
+    public int JumpMaxCount = 2;
+    public int JumpRemainCount;
     // 구현 순서:
     // 1. 만약에 [Spacebar] 버튼을 누르면..
     // 2. 플레이어에게 y축에 있어 점프 파워를 적용한다
@@ -103,10 +105,17 @@ public class PlayerMove : MonoBehaviour
         Stamina = Mathf.Clamp(Stamina, 0, 100);
         StaminaSliderUI.value = Stamina / MaxStamina;  // 0 ~ 1;//
         
-        // 점프 구현
-        // 1. 만약에 [Spacebar] 버튼을 누르는 순간 && 땅이면...
-        if (Input.GetKeyDown(KeyCode.Space) && _characterController.isGrounded)
+        if (_characterController.isGrounded)
         {
+            JumpRemainCount = JumpMaxCount;
+        }
+        
+        // 점프 구현
+        // 1. 만약에 [Spacebar] 버튼을 누르는 순간 && (땅이거나 or 점프 횟수가 남아있다면)
+        if (Input.GetKeyDown(KeyCode.Space) && (_characterController.isGrounded || JumpRemainCount > 0))
+        {
+            JumpRemainCount--;
+            
             // 2. 플레이어에게 y축에 있어 점프 파워를 적용한다.
             _yVelocity = JumpPower;
         }

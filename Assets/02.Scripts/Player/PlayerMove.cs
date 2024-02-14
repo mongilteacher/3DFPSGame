@@ -27,6 +27,7 @@ public class PlayerMove : MonoBehaviour
     public float JumpPower = 10f;
     public int JumpMaxCount = 2;
     public int JumpRemainCount;
+    private bool _isJumping = false;
     // 구현 순서:
     // 1. 만약에 [Spacebar] 버튼을 누르면..
     // 2. 플레이어에게 y축에 있어 점프 파워를 적용한다
@@ -38,7 +39,7 @@ public class PlayerMove : MonoBehaviour
     // - 중력 값
     private float _gravity = -20;
     // - 누적할 중력 변수: y축 속도
-    private float _yVelocity = 0f;
+    public float _yVelocity = 0f;
     // 구현 순서:
     // 1. 중력 가속도가 누적된다.
     // 2. 플레이어에게 y축에 있어 중력을 적용한다.
@@ -105,27 +106,32 @@ public class PlayerMove : MonoBehaviour
         Stamina = Mathf.Clamp(Stamina, 0, 100);
         StaminaSliderUI.value = Stamina / MaxStamina;  // 0 ~ 1;//
         
+        // 땅이면 점프 횟수 초기화
         if (_characterController.isGrounded)
         {
+            _isJumping = false;
+            _yVelocity = 0f;
             JumpRemainCount = JumpMaxCount;
         }
         
         // 점프 구현
         // 1. 만약에 [Spacebar] 버튼을 누르는 순간 && (땅이거나 or 점프 횟수가 남아있다면)
-        if (Input.GetKeyDown(KeyCode.Space) && (_characterController.isGrounded || JumpRemainCount > 0))
+        if (Input.GetKeyDown(KeyCode.Space) && (_characterController.isGrounded || (_isJumping && JumpRemainCount > 0)))
         {
+            _isJumping = true;
+            
             JumpRemainCount--;
             
             // 2. 플레이어에게 y축에 있어 점프 파워를 적용한다.
             _yVelocity = JumpPower;
         }
-        
-        
+
+       
         // 3-1. 중력 적용
         // 1. 중력 가속도가 누적된다.
         _yVelocity += _gravity * Time.deltaTime;
+
         // 2. 플레이어에게 y축에 있어 중력을 적용한다.
-        
         
         dir.y = _yVelocity;
         

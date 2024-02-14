@@ -44,10 +44,14 @@ public class FPSCamera : MonoBehaviour
     // 2. 마우스 입력 값을 이용해 회전 방향을 구한다.
     // 3. 회전 방향 회전한다.
     
-    private void Update()
+    private void LateUpdate()
     {
-        // 1. 캐릭터의 눈 위치로 카메라를 이동시킨다.
-        transform.position = Target.position;
+        if (CameraManager.Instance.Mode == CameraMode.FPS)
+        {
+            // 1. 캐릭터의 눈 위치로 카메라를 이동시킨다.
+            transform.position = Target.position;
+        }
+      
         
         
         // 1. 마우스 입력(drag) 받는다.
@@ -72,8 +76,10 @@ public class FPSCamera : MonoBehaviour
         _my = Mathf.Clamp(_my, -90f, 90f);
         //_mx = Mathf.Clamp(_mx, -270f, 270f);
 
-
-        transform.eulerAngles = new Vector3(-_my, _mx, 0);
+        if (CameraManager.Instance.Mode == CameraMode.FPS)
+        {
+            transform.eulerAngles = new Vector3(-_my, _mx, 0);
+        }
 
         // 오일러 각도의 단점
         // 1. 짐벌락 현상

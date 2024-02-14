@@ -28,8 +28,21 @@ public class PlayerMove : MonoBehaviour
     // 1. 키 입력 받기
     // 2. '캐릭터가 바라보는 방향'을 기준으로 방향구하기
     // 3. 이동하기
+
     void Update()
     {
+        if (Input.GetKeyDown(KeyCode.Alpha9))
+        {
+            // FPS 카메라 모드로 전환
+            CameraManager.Instance.SetCameraMode(CameraMode.FPS);
+        }
+        else if (Input.GetKeyDown(KeyCode.Alpha0))
+        {
+            // TPS 카메라 모드로 전환
+            CameraManager.Instance.SetCameraMode(CameraMode.TPS);
+        }
+        
+        
         // 1. 키 입력 받기
         float h = Input.GetAxis("Horizontal");
         float v = Input.GetAxis("Vertical");

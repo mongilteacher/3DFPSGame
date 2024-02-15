@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -16,6 +17,24 @@ public enum CameraMode
 public class CameraManager : MonoBehaviour
 {
     public static CameraManager Instance { get; private set; }
+
+    public static bool Focus
+    {
+        get
+        {
+            if (Cursor.lockState != CursorLockMode.Locked)
+            {
+                return false;
+            }
+            
+            Vector3 mousePosition = Input.mousePosition;
+            bool isScreen = mousePosition.x < 0 || 
+                            mousePosition.x > Screen.width || 
+                            mousePosition.y < 0 ||
+                            mousePosition.y > Screen.height;
+            return !isScreen;
+        }
+    }
     
     private FPSCamera _FPSCamera;
     private TPSCamera _TPSCamera;
@@ -52,9 +71,45 @@ public class CameraManager : MonoBehaviour
         
         SetCameraMode(CameraMode.TPS);
     }
+
+    private void Update()
+    {
+        if (Input.GetMouseButtonDown(0))
+        {
+            if (Cursor.lockState == CursorLockMode.None)
+            {
+                Cursor.lockState = CursorLockMode.Locked;
+            }
+        }
+        
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            if (Cursor.lockState == CursorLockMode.Locked)
+            {
+                Cursor.lockState = CursorLockMode.None;
+            }
+            else
+            {
+                Cursor.lockState = CursorLockMode.Locked;
+            }
+        }
+
+        if (Input.GetKeyDown(KeyCode.Minus))
+        {
+            X = 0;
+            Y = 0;
+            
+            FindObjectOfType<PlayerRotate>()?.ResetX();
+        }
+    }
     
     private void LateUpdate()
     {
+        if (!Focus)
+        {
+            return;
+        }
+        
         // 3. 마우스 입력을 받는다.
         float mouseX = Input.GetAxis("Mouse X");
         float mouseY = Input.GetAxis("Mouse Y");
@@ -68,11 +123,7 @@ public class CameraManager : MonoBehaviour
     
     public void SetCameraMode(CameraMode mode)
     {
-        if (Mode == mode)
-        {
-            return;
-        }
-
+        
         if (Mode == CameraMode.FPS)
         {
             //Y += _TPSCamera.Offset.y;

@@ -8,7 +8,7 @@ public class Bomb : MonoBehaviour
     
     private void OnCollisionEnter(Collision other)
     {
-        Destroy(gameObject);
+        gameObject.SetActive(false); // 창고에 넣는다.
 
         GameObject effect = Instantiate(BombEffectPrefab);
         effect.transform.position = this.gameObject.transform.position;

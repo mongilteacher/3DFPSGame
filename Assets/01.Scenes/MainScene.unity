@@ -1612,8 +1612,10 @@ MonoBehaviour:
   FirePosition: {fileID: 1900578479}
   ThrowPower: 20
   BombRemainCount: 0
-  BombMaxCount: 3
+  BombMaxCount: 100
   BombTextUI: {fileID: 419701009}
+  BombPool: []
+  BombPoolSize: 10
 --- !u!1 &687024875
 GameObject:
   m_ObjectHideFlags: 0
@@ -2747,7 +2749,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 5, y: 1, z: 5}
+  m_LocalScale: {x: 20, y: 1, z: 20}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}

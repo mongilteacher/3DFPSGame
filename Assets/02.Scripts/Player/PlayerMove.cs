@@ -64,6 +64,12 @@ public class PlayerMove : MonoBehaviour
 
     void Update()
     {
+
+        if (_characterController.collisionFlags == CollisionFlags.Above)
+        {
+            _yVelocity = 0f;
+        }
+        
         if (Input.GetKeyDown(KeyCode.Alpha9))
         {
             // FPS 카메라 모드로 전환

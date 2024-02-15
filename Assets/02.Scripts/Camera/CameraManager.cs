@@ -50,7 +50,7 @@ public class CameraManager : MonoBehaviour
         Cursor.visible = false;
         Cursor.lockState = CursorLockMode.Locked;
         
-        SetCameraMode(CameraMode.FPS);
+        SetCameraMode(CameraMode.TPS);
     }
     
     private void LateUpdate()

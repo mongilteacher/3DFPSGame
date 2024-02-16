@@ -124,14 +124,14 @@ public class PlayerMove : MonoBehaviour
         if (_isClimbing || Input.GetKey(KeyCode.LeftShift)) // 실습 과제 2. 스태미너 구현
         {
             // - Shfit 누른 동안에는 스태미나가 서서히 소모된다. (3초)
-            if (_isClimbing)
-            {
-                Stamina -= StaminaConsumeSpeed * ClimbingStaminaCosumeFactor * Time.deltaTime; // 1.5배 더!
-            }
-            else
-            {
-                Stamina -= StaminaConsumeSpeed * Time.deltaTime; // 초당 33씩 소모
-            }
+            
+            // 조건(삼항) 연산자
+            // -> 조건식을 사용해서 조건식의 참, 거짓 여부에 따라 다른 결과값을 대입
+            // 조건식 ? 조건식이 참일때의 값 : 조건식이 거짓일때의 값
+
+            float factor = _isClimbing ? ClimbingStaminaCosumeFactor : 1f;
+            Stamina -= StaminaConsumeSpeed * factor * Time.deltaTime;
+
             
             // 클라이밍 상태가 아닐때만 스피드 up!
             if (!_isClimbing && Stamina > 0)

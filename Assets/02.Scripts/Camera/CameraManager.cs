@@ -102,6 +102,13 @@ public class CameraManager : MonoBehaviour
             FindObjectOfType<PlayerRotate>()?.ResetX();
         }
     }
+
+    public void Shake()
+    {
+        Vector2 randomCircle = UnityEngine.Random.insideUnitCircle * 0.6f;
+        X += randomCircle.x;
+        Y += randomCircle.y;
+    }
     
     private void LateUpdate()
     {

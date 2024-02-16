@@ -26,7 +26,7 @@ public class PlayerGunFire : MonoBehaviour
 
     private void RefreshUI()
     {
-        BulletTextUI.text = $"{BulletRemainCount}/{BulletMaxCount}";
+        BulletTextUI.text = $"{BulletRemainCount:D2}/{BulletMaxCount}";
     }
 
     private void Update()
@@ -43,6 +43,9 @@ public class PlayerGunFire : MonoBehaviour
         // 1. 만약에 마우스 왼쪽 버튼을 누르면
         if (BulletRemainCount > 0 && _fireTimer <= 0 && Input.GetMouseButton(0))
         {
+            
+            CameraManager.Instance.Shake();
+            
             _fireTimer = FIRE_TIME;
             BulletRemainCount--;
             RefreshUI();

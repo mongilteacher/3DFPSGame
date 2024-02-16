@@ -50,6 +50,8 @@ public class PlayerMove : MonoBehaviour
     // 필요 속성:
     // - 벽타기 파워
     public float ClimbingPower = 7f;
+    // - 벽타기 스태미너 소모량 팩터
+    public float ClimbingStaminaCosumeFactor = 1.5f;
     // - 벽타기 상태
     private bool _isClimbing = false;
     // 구현 순서
@@ -80,8 +82,8 @@ public class PlayerMove : MonoBehaviour
     void Update()
     {
 
-        // 1. 만약 벽에 닿아 있는데
-        if (_characterController.collisionFlags == CollisionFlags.Sides)
+        // 1. 만약 벽에 닿아 있는데 && 스태미너가 > 0
+        if (Stamina > 0 && _characterController.collisionFlags == CollisionFlags.Sides)
         {
             // 2. [Spacebar] 버튼을 누르고 있으면
             if (Input.GetKey(KeyCode.Space))
@@ -89,9 +91,9 @@ public class PlayerMove : MonoBehaviour
                 // 3. 벽을 타겠다.
                 _isClimbing = true;
                 _yVelocity = ClimbingPower;
+                
             }
         }
-        
         
         
         
@@ -119,11 +121,20 @@ public class PlayerMove : MonoBehaviour
 
         // 실습 과제 1. Shift 누르고 있으면 빨리 뛰기
         float speed = MoveSpeed; // 5
-        if (Input.GetKey(KeyCode.LeftShift)) // 실습 과제 2. 스태미너 구현
+        if (_isClimbing || Input.GetKey(KeyCode.LeftShift)) // 실습 과제 2. 스태미너 구현
         {
             // - Shfit 누른 동안에는 스태미나가 서서히 소모된다. (3초)
-            Stamina -= StaminaConsumeSpeed * Time.deltaTime; // 초당 33씩 소모
-            if (Stamina > 0)
+            if (_isClimbing)
+            {
+                Stamina -= StaminaConsumeSpeed * ClimbingStaminaCosumeFactor * Time.deltaTime; // 1.5배 더!
+            }
+            else
+            {
+                Stamina -= StaminaConsumeSpeed * Time.deltaTime; // 초당 33씩 소모
+            }
+            
+            // 클라이밍 상태가 아닐때만 스피드 up!
+            if (!_isClimbing && Stamina > 0)
             {
                 speed = RunSpeed;
             }
@@ -137,10 +148,11 @@ public class PlayerMove : MonoBehaviour
         Stamina = Mathf.Clamp(Stamina, 0, 100);
         StaminaSliderUI.value = Stamina / MaxStamina;  // 0 ~ 1;//
         
-        // 땅이면 점프 횟수 초기화
+        // 땅에 닿아을때 
         if (_characterController.isGrounded)
         {
             _isJumping = false;
+            _isClimbing = false;
             _yVelocity = 0f;
             JumpRemainCount = JumpMaxCount;
         }

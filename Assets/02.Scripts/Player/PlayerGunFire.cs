@@ -25,8 +25,8 @@ public class PlayerGunFire : MonoBehaviour
             // 3. 레이를 발사한다.
             // 4. 레이가 부딛힌 대상의 정보를 받아온다.
             RaycastHit hitInfo;
-            bool IsHit = Physics.Raycast(ray, out hitInfo);
-            if (IsHit)
+            bool isHit = Physics.Raycast(ray, out hitInfo);
+            if (isHit)
             {
                 // 5. 부딛힌 위치에 (총알이 튀는)이펙트를 위치한다.
                 HitEffect.gameObject.transform.position = hitInfo.point;

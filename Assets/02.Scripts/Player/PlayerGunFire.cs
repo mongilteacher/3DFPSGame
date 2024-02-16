@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class PlayerGunFire : MonoBehaviour
 {
@@ -13,14 +14,42 @@ public class PlayerGunFire : MonoBehaviour
     public float FireCooltime = 0.2f;
     private float _timer;
     
+    // - 총알 개수
+    public int BulletRemainCount;
+    public int BulletMaxCount = 30;
+    
+    // - 총알 개수 텍스트 UI
+    public Text BulletTextUI; 
+
+    private void Start()
+    {
+        // 총알 개수 초기화
+        BulletRemainCount = BulletMaxCount;
+        RefreshUI();
+    }
+
+    private void RefreshUI()
+    {
+        BulletTextUI.text = $"{BulletRemainCount:d2}/{BulletMaxCount}";
+    }
+    
 
     private void Update()
     {
+        if (Input.GetKeyDown(KeyCode.R))
+        {
+            BulletRemainCount = BulletMaxCount;
+            RefreshUI();
+        }
+        
         _timer += Time.deltaTime;
         
-        // 1. 만약에 마우스 왼쪽 버튼을 누른 상태 && 쿨타임이 다 지난 상태
-        if (Input.GetMouseButton(0) && _timer >= FireCooltime)
+        // 1. 만약에 마우스 왼쪽 버튼을 누른 상태 && 쿨타임이 다 지난 상태 && 총알 개수 > 0
+        if (Input.GetMouseButton(0) && _timer >= FireCooltime && BulletRemainCount > 0)
         {
+            BulletRemainCount -= 1;
+            RefreshUI();
+            
             _timer = 0;
             
             // 2. 레이(광선)을 생성하고, 위치와 방향을 설정한다.

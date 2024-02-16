@@ -1,6 +1,8 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Serialization;
 using UnityEngine.UI;
 
 public class PlayerGunFire : MonoBehaviour
@@ -10,6 +12,10 @@ public class PlayerGunFire : MonoBehaviour
     // - 총알 튀는 이펙트 프리팹
     public ParticleSystem HitEffect;
 
+    private const int BulletHouseCount = 10;
+    private const int BulletCountPerHouse = 30;
+    
+    public int BulletTotalRemainCount;
     public int BulletRemainCount;
     public int BulletMaxCount = 30;
     private float _fireTimer;
@@ -19,23 +25,30 @@ public class PlayerGunFire : MonoBehaviour
     
     private void Start()
     {
-        BulletRemainCount = BulletMaxCount;
+        BulletTotalRemainCount = BulletHouseCount * BulletCountPerHouse;
+        BulletRemainCount = BulletCountPerHouse;
+        
+        
         
         RefreshUI();
     }
 
     private void RefreshUI()
     {
-        BulletTextUI.text = $"{BulletRemainCount:D2}/{BulletMaxCount}";
+        BulletTextUI.text = $"{BulletRemainCount:D2}/{BulletTotalRemainCount:D2}";
     }
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.R))
+        if (BulletTotalRemainCount > 0 && BulletRemainCount < BulletCountPerHouse && Input.GetKeyDown(KeyCode.R))
         {
-            BulletRemainCount = BulletMaxCount;
+            int diff = BulletCountPerHouse - BulletRemainCount;
+            diff = Math.Min(BulletTotalRemainCount, diff);
+            
+            BulletTotalRemainCount -= diff;
+            BulletRemainCount += diff;
+            
             RefreshUI();
-
         }
 
         _fireTimer -= Time.deltaTime;

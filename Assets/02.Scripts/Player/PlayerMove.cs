@@ -46,6 +46,21 @@ public class PlayerMove : MonoBehaviour
     
     
     
+    // 목표: 벽에 닿아 있는 상태에서 스페이스바를 누르면 벽타기를 하고 싶다.
+    // 필요 속성:
+    // - 벽타기 파워
+    public float ClimbingPower = 7f;
+    // - 벽타기 상태
+    private bool _isClimbing = false;
+    // 구현 순서
+    // 1. 만약 벽에 닿아 있는데
+    // 2. [Spacebar] 버튼을 누르고 있으면
+    // 3. 벽을 타겠다.
+    
+    
+    
+    
+    
     
     private void Awake()
     {
@@ -65,10 +80,20 @@ public class PlayerMove : MonoBehaviour
     void Update()
     {
 
-        if (_characterController.collisionFlags == CollisionFlags.Above)
+        // 1. 만약 벽에 닿아 있는데
+        if (_characterController.collisionFlags == CollisionFlags.Sides)
         {
-            _yVelocity = 0f;
+            // 2. [Spacebar] 버튼을 누르고 있으면
+            if (Input.GetKey(KeyCode.Space))
+            {
+                // 3. 벽을 타겠다.
+                _isClimbing = true;
+                _yVelocity = ClimbingPower;
+            }
         }
+        
+        
+        
         
         if (Input.GetKeyDown(KeyCode.Alpha9))
         {

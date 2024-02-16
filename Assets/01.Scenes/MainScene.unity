@@ -1570,6 +1570,7 @@ MonoBehaviour:
   JumpMaxCount: 2
   JumpRemainCount: 2
   _yVelocity: 0
+  ClimbingPower: 5
 --- !u!143 &678037552
 CharacterController:
   m_ObjectHideFlags: 0

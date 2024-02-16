@@ -46,6 +46,9 @@ public class PlayerMove : MonoBehaviour
     
     
     
+    private bool _isClimbing = false;
+    public float ClimbingPower = 5f;
+    
     
     private void Awake()
     {
@@ -94,10 +97,10 @@ public class PlayerMove : MonoBehaviour
 
         // 실습 과제 1. Shift 누르고 있으면 빨리 뛰기
         float speed = MoveSpeed; // 5
-        if (Input.GetKey(KeyCode.LeftShift)) // 실습 과제 2. 스태미너 구현
+        if (Input.GetKey(KeyCode.LeftShift) || _isClimbing) // 실습 과제 2. 스태미너 구현
         {
             // - Shfit 누른 동안에는 스태미나가 서서히 소모된다. (3초)
-            Stamina -= StaminaConsumeSpeed * Time.deltaTime; // 초당 33씩 소모
+            Stamina -= StaminaConsumeSpeed * Time.deltaTime * (_isClimbing ? 5 : 1); // 초당 33씩 소모
             if (Stamina > 0)
             {
                 speed = RunSpeed;
@@ -118,6 +121,7 @@ public class PlayerMove : MonoBehaviour
             _isJumping = false;
             _yVelocity = 0f;
             JumpRemainCount = JumpMaxCount;
+            _isClimbing = false;
         }
         
         // 점프 구현
@@ -130,6 +134,12 @@ public class PlayerMove : MonoBehaviour
             
             // 2. 플레이어에게 y축에 있어 점프 파워를 적용한다.
             _yVelocity = JumpPower;
+        }
+
+        if (Stamina > 0 && Input.GetKey(KeyCode.Space) && (_characterController.collisionFlags == CollisionFlags.Sides))
+        {
+            _isClimbing = true;
+            _yVelocity = ClimbingPower;
         }
 
        

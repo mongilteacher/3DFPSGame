@@ -2578,7 +2578,7 @@ Camera:
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
-    m_Bits: 951
+    m_Bits: 1975
   m_RenderingPath: -1
   m_TargetTexture: {fileID: 0}
   m_TargetDisplay: 0
@@ -2660,7 +2660,7 @@ GameObject:
   - component: {fileID: 982911349}
   - component: {fileID: 982911348}
   - component: {fileID: 982911352}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Drum
   m_TagString: Untagged
   m_Icon: {fileID: 0}

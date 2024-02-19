@@ -107,12 +107,4 @@ public class PlayerGunFire : MonoBehaviour
         }
         
     }
-
-    public void OnTriggerEnter(Collider other)
-    {
-        if (other.gameObject.tag == "Monster")
-        {
-            
-        }
-    }
 }

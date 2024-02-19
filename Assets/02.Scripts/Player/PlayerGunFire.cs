@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -90,8 +91,11 @@ public class PlayerGunFire : MonoBehaviour
             if (isHit)
             {
                 //실습 과제 18. 레이저를 몬스터에게 맞출 시 몬스터 체력 닳는 기능 구현
-
-
+                IHitable hitObject = hitInfo.collider.GetComponent<IHitable>();
+                if (hitObject != null)  // 때릴 수 있는 친구인가요?
+                {
+                    hitObject.Hit(Damage);
+                }
                 
                 // 5. 부딛힌 위치에 (총알이 튀는)이펙트를 위치한다.
                 HitEffect.gameObject.transform.position = hitInfo.point;
@@ -101,5 +105,13 @@ public class PlayerGunFire : MonoBehaviour
             }
         }
         
+    }
+
+    public void OnTriggerEnter(Collider other)
+    {
+        if (other.gameObject.tag == "Monster")
+        {
+            
+        }
     }
 }

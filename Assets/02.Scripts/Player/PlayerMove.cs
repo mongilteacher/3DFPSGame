@@ -58,9 +58,11 @@ public class PlayerMove : MonoBehaviour
     // 1. 만약 벽에 닿아 있는데
     // 2. [Spacebar] 버튼을 누르고 있으면
     // 3. 벽을 타겠다.
-    
-    
-    
+
+    public int Health;
+    public int MaxHealth = 100;
+    public Slider HealthSliderUI;
+
     
     
     
@@ -72,6 +74,7 @@ public class PlayerMove : MonoBehaviour
     private void Start()
     {
         Stamina = MaxStamina;
+        Health  = MaxHealth;
     }
 
     // 구현 순서
@@ -81,6 +84,7 @@ public class PlayerMove : MonoBehaviour
 
     void Update()
     {
+        HealthSliderUI.value = (float)Health / (float)MaxHealth;  // 0 ~ 1
 
         // 1. 만약 벽에 닿아 있는데 && 스태미너가 > 0
         if (Stamina > 0 && _characterController.collisionFlags == CollisionFlags.Sides)

@@ -23,6 +23,7 @@ public class PlayerGunFire : MonoBehaviour
 
     private const float RELOAD_TIME = 1.5f; // 재장전 시간
     private bool _isReloading = false;      // 재장전 중이냐?
+    public GameObject ReloadTextObject;
     
     private void Start()
     {
@@ -50,13 +51,16 @@ public class PlayerGunFire : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.R))
+        if (Input.GetKeyDown(KeyCode.R) && BulletRemainCount < BulletMaxCount)
         {
             if (!_isReloading)
             {
                 StartCoroutine(Reload_Coroutine());
             }
         }
+        
+        ReloadTextObject.SetActive(_isReloading);
+        
         
         _timer += Time.deltaTime;
         

@@ -5,6 +5,8 @@ using UnityEngine.UI;
 
 public class PlayerGunFire : MonoBehaviour
 {
+    public int Damage = 1;
+    
     // 목표: 마우스 왼쪽 버튼을 누르면 시선이 바라보는 방향으로 총을 발사하고 싶다.
     // 필요 속성
     // - 총알 튀는 이펙트 프리팹
@@ -87,6 +89,10 @@ public class PlayerGunFire : MonoBehaviour
             bool isHit = Physics.Raycast(ray, out hitInfo);
             if (isHit)
             {
+                //실습 과제 18. 레이저를 몬스터에게 맞출 시 몬스터 체력 닳는 기능 구현
+
+
+                
                 // 5. 부딛힌 위치에 (총알이 튀는)이펙트를 위치한다.
                 HitEffect.gameObject.transform.position = hitInfo.point;
                 // 6. 이펙트가 쳐다보는 방향을 부딛힌 위치의 법선 벡터로 한다.

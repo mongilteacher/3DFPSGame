@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class Monster : MonoBehaviour
+public class Monster : MonoBehaviour, IHitable
 {
     [Range(0, 100)]
     public int Health;

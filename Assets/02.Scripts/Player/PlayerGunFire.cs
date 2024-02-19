@@ -19,8 +19,11 @@ public class PlayerGunFire : MonoBehaviour
     public int BulletMaxCount = 30;
     
     // - 총알 개수 텍스트 UI
-    public Text BulletTextUI; 
+    public Text BulletTextUI;
 
+    private const float RELOAD_TIME = 1.5f; // 재장전 시간
+    private bool _isReloading = false;      // 재장전 중이냐?
+    
     private void Start()
     {
         // 총알 개수 초기화
@@ -32,14 +35,27 @@ public class PlayerGunFire : MonoBehaviour
     {
         BulletTextUI.text = $"{BulletRemainCount:d2}/{BulletMaxCount}";
     }
-    
+
+    private IEnumerator Reload_Coroutine()
+    {
+        _isReloading = true;
+        
+        // R키 누르면 1.5초 후 재장전, (중간에 총 쏘는 행위를 하면 재장전 취소)
+        yield return new WaitForSeconds(RELOAD_TIME);
+        BulletRemainCount = BulletMaxCount;
+        RefreshUI();
+
+        _isReloading = false;
+    }
 
     private void Update()
     {
         if (Input.GetKeyDown(KeyCode.R))
         {
-            BulletRemainCount = BulletMaxCount;
-            RefreshUI();
+            if (!_isReloading)
+            {
+                StartCoroutine(Reload_Coroutine());
+            }
         }
         
         _timer += Time.deltaTime;
@@ -47,6 +63,13 @@ public class PlayerGunFire : MonoBehaviour
         // 1. 만약에 마우스 왼쪽 버튼을 누른 상태 && 쿨타임이 다 지난 상태 && 총알 개수 > 0
         if (Input.GetMouseButton(0) && _timer >= FireCooltime && BulletRemainCount > 0)
         {
+            // 재장전 취소
+            if (_isReloading)
+            {
+                StopAllCoroutines();
+                _isReloading = false;
+            }
+            
             BulletRemainCount -= 1;
             RefreshUI();
             

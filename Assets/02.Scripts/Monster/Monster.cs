@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class Monster : MonoBehaviour, IHitable
+public class Monster : MonoBehaviour
 {
     [Range(0, 100)]
     public int Health;
@@ -13,6 +13,10 @@ public class Monster : MonoBehaviour, IHitable
     public void Hit(int damage)
     {
         Health -= damage;
+        if (Health <= 0)
+        {
+            Destroy(gameObject);
+        }
     }
     
     private void Update()

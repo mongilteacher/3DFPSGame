@@ -97,6 +97,7 @@ public class PlayerGunFire : MonoBehaviour
                     hitObject.Hit(Damage);
                 }
                 
+                
                 // 5. 부딛힌 위치에 (총알이 튀는)이펙트를 위치한다.
                 HitEffect.gameObject.transform.position = hitInfo.point;
                 // 6. 이펙트가 쳐다보는 방향을 부딛힌 위치의 법선 벡터로 한다.

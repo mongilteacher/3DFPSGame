@@ -25,6 +25,9 @@ public class PlayerGunFire : MonoBehaviour
 
     private bool _isReloading = false;      // 재장전 중이냐?
     public GameObject ReloadTextObject;
+
+    // 무기 이미지 UI
+    public Image GunImageUI;
     
     private void Start()
     {
@@ -35,6 +38,7 @@ public class PlayerGunFire : MonoBehaviour
 
     private void RefreshUI()
     {
+        GunImageUI.sprite = CurrentGun.ProfileImage;
         BulletTextUI.text = $"{CurrentGun.BulletRemainCount:d2}/{CurrentGun.BulletMaxCount}";
     }
 

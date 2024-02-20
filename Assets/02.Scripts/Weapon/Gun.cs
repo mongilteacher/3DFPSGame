@@ -10,6 +10,9 @@ public enum GunType
 public class Gun : MonoBehaviour
 {
     public GunType GType;
+
+    // - 대표 이미지
+    public Sprite ProfileImage;
     
     // - 공격력
     public int Damage = 10;

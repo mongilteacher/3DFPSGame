@@ -466,7 +466,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: aba3ad03cb89703448adb7f5a385c5b3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GType: 0
+  GType: 1
   ProfileImage: {fileID: 21300000, guid: 2d606ebc1f896ef4f81dc868e47e61c4, type: 3}
   Damage: 90
   FireCooltime: 1
@@ -2638,7 +2638,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: aba3ad03cb89703448adb7f5a385c5b3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GType: 0
+  GType: 2
   ProfileImage: {fileID: 21300000, guid: beab5f85d0b0db249a88a41e3f8076d5, type: 3}
   Damage: 20
   FireCooltime: 0.5

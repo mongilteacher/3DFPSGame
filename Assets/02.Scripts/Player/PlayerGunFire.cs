@@ -6,7 +6,7 @@ using UnityEngine.UI;
 
 public class PlayerGunFire : MonoBehaviour
 {
-    public int Damage = 1;
+    public int Damage = 10;
     
     // 목표: 마우스 왼쪽 버튼을 누르면 시선이 바라보는 방향으로 총을 발사하고 싶다.
     // 필요 속성

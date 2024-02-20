@@ -192,7 +192,7 @@ public class PlayerMove : MonoBehaviour, IHitable
         Health -= damage;
         if (Health <= 0)
         {
-            Destroy(gameObject);
+            gameObject.SetActive(false);
         }
     }
 }

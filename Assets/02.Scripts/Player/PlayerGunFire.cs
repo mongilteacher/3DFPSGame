@@ -10,6 +10,10 @@ public class PlayerGunFire : MonoBehaviour
     
     private float _timer;
     
+    // 총을 담는 인벤토리
+    public List<Gun> GunInventory;
+    
+    
     // 목표: 마우스 왼쪽 버튼을 누르면 시선이 바라보는 방향으로 총을 발사하고 싶다.
     // 필요 속성
     // - 총알 튀는 이펙트 프리팹
@@ -26,6 +30,7 @@ public class PlayerGunFire : MonoBehaviour
     {
         // 총알 개수 초기화
         RefreshUI();
+        RefreshGun();
     }
 
     private void RefreshUI()
@@ -47,6 +52,25 @@ public class PlayerGunFire : MonoBehaviour
 
     private void Update()
     {
+        if (Input.GetKeyDown(KeyCode.Alpha1))
+        {
+            CurrentGun = GunInventory[0];
+            RefreshGun();
+            RefreshUI();
+        }
+        else if (Input.GetKeyDown(KeyCode.Alpha2))
+        {
+            CurrentGun = GunInventory[1];
+            RefreshGun();
+            RefreshUI();
+        }
+        else if (Input.GetKeyDown(KeyCode.Alpha3))
+        {
+            CurrentGun = GunInventory[2];
+            RefreshGun();
+            RefreshUI();
+        }
+        
         if (Input.GetKeyDown(KeyCode.R) && CurrentGun.BulletRemainCount < CurrentGun.BulletMaxCount)
         {
             if (!_isReloading)
@@ -99,5 +123,21 @@ public class PlayerGunFire : MonoBehaviour
             }
         }
         
+    }
+
+    private void RefreshGun()
+    {
+        foreach (Gun gun in GunInventory)
+        {
+            /**if (gun == CurrentGun)
+            {
+                gun.gameObject.SetActive(true);
+            }
+            else
+            {
+                gun.gameObject.SetActive(false);
+            }**/
+            gun.gameObject.SetActive(gun == CurrentGun);
+        }
     }
 }

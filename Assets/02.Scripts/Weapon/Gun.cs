@@ -4,6 +4,7 @@ public enum GunType
 {
     Rifle,  // 따발총
     Sniper, // 저격총 
+    Pistol, // 권총
 }
 
 public class Gun : MonoBehaviour

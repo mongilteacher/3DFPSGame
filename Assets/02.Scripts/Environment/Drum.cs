@@ -13,6 +13,9 @@ public class Drum : MonoBehaviour, IHitable
 
     public int Damage = 70;
     public float ExplosionRadius = 10f;
+
+    private bool _isExplosion = false;
+    
     
     private void Start()
     {
@@ -25,12 +28,19 @@ public class Drum : MonoBehaviour, IHitable
         _hitCount += 1;
         if (_hitCount >= 3)
         {
-            Kill();
+            Explosion();
         }
     }
 
-    private void Kill()
+    private void Explosion()
     {
+        if (_isExplosion)
+        {
+            return;
+        }
+
+        _isExplosion = true;
+        
         GameObject explosion = Instantiate(ExplosionPaticlePrefab);
         explosion.transform.position = this.transform.position;
         _rigidbody.AddForce(Vector3.up * UpPower, ForceMode.Impulse);
@@ -51,9 +61,27 @@ public class Drum : MonoBehaviour, IHitable
                 hitable.Hit(Damage);
             }
         }
+
+        // 실습 과제 23. 드럼통 폭발할 때 주변 드럼통도 같이 폭발되게 구현
+        int environmentLayer = LayerMask.GetMask("Environment");
+        Collider[] environmentColliders = Physics.OverlapSphere(transform.position, ExplosionRadius, environmentLayer);
+        foreach (Collider c in environmentColliders)
+        {
+            Drum drum = null;
+            if (c.TryGetComponent<Drum>(out drum))
+            {
+                // 주변 드럼 폭파
+                drum.Explosion();
+            }
+        }
         
         
-        
-        Destroy(gameObject, 3f);
+        StartCoroutine(Kill_Coroutine());
+    }
+
+    private IEnumerator Kill_Coroutine()
+    {
+        yield return new WaitForSeconds(3f);
+        Destroy(gameObject);
     }
 }

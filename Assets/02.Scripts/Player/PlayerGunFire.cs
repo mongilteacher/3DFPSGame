@@ -10,6 +10,11 @@ public class PlayerGunFire : MonoBehaviour
     private int _currentGunIndex; // 현재 들고있는 총의 순서
     
     private float _timer;
+
+    private const int DefaultFOV = 60;
+    private const int ZoomFOV    = 20;
+    private bool isZoomMode = false;  // 줌 모드냐?
+    
     
     // 총을 담는 인벤토리
     public List<Gun> GunInventory;
@@ -59,6 +64,21 @@ public class PlayerGunFire : MonoBehaviour
 
     private void Update()
     {
+        if (Input.GetMouseButtonDown(2))
+        {
+            if (isZoomMode)
+            {
+                isZoomMode = false;
+                Camera.main.fieldOfView = DefaultFOV;
+            }
+            else
+            {
+                isZoomMode = true;
+                Camera.main.fieldOfView = ZoomFOV;
+            }
+        }
+        
+        
         if (Input.GetKeyDown(KeyCode.LeftBracket)) // '['
         {
             // 뒤로가기 

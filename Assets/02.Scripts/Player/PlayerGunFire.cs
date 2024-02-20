@@ -6,7 +6,8 @@ using UnityEngine.UI;
 
 public class PlayerGunFire : MonoBehaviour
 {
-    public Gun CurrentGun;    // 현재 들고있는 총
+    public Gun CurrentGun;        // 현재 들고있는 총
+    private int _currentGunIndex; // 현재 들고있는 총의 순서
     
     private float _timer;
     
@@ -31,6 +32,8 @@ public class PlayerGunFire : MonoBehaviour
     
     private void Start()
     {
+        _currentGunIndex = 0;
+        
         // 총알 개수 초기화
         RefreshUI();
         RefreshGun();
@@ -56,20 +59,43 @@ public class PlayerGunFire : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Alpha1))
+        if (Input.GetKeyDown(KeyCode.LeftBracket)) // '['
         {
+            // 뒤로가기 
+            _currentGunIndex--;
+            if (_currentGunIndex < 0)
+            {
+                _currentGunIndex = GunInventory.Count - 1;
+            }
+            CurrentGun = GunInventory[_currentGunIndex];
+        }
+        else if (Input.GetKeyDown(KeyCode.RightBracket)) // ']'
+        {
+            // 앞으로 가기
+            _currentGunIndex++;
+            if (_currentGunIndex >= GunInventory.Count)
+            {
+                _currentGunIndex = 0;
+            }
+            CurrentGun = GunInventory[_currentGunIndex];
+        }
+        else if (Input.GetKeyDown(KeyCode.Alpha1))
+        {
+            _currentGunIndex = 0;
             CurrentGun = GunInventory[0];
             RefreshGun();
             RefreshUI();
         }
         else if (Input.GetKeyDown(KeyCode.Alpha2))
         {
+            _currentGunIndex = 1;
             CurrentGun = GunInventory[1];
             RefreshGun();
             RefreshUI();
         }
         else if (Input.GetKeyDown(KeyCode.Alpha3))
         {
+            _currentGunIndex = 2;
             CurrentGun = GunInventory[2];
             RefreshGun();
             RefreshUI();

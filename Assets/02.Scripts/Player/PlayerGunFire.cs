@@ -68,6 +68,8 @@ public class PlayerGunFire : MonoBehaviour
                 _currentGunIndex = GunInventory.Count - 1;
             }
             CurrentGun = GunInventory[_currentGunIndex];
+            RefreshGun();
+            RefreshUI();
         }
         else if (Input.GetKeyDown(KeyCode.RightBracket)) // ']'
         {
@@ -78,6 +80,8 @@ public class PlayerGunFire : MonoBehaviour
                 _currentGunIndex = 0;
             }
             CurrentGun = GunInventory[_currentGunIndex];
+            RefreshGun();
+            RefreshUI();
         }
         else if (Input.GetKeyDown(KeyCode.Alpha1))
         {

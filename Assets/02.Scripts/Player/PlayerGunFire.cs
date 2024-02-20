@@ -13,7 +13,10 @@ public class PlayerGunFire : MonoBehaviour
 
     private const int DefaultFOV = 60;
     private const int ZoomFOV    = 20;
-    private bool isZoomMode = false;  // 줌 모드냐?
+    private bool _isZoomMode = false;  // 줌 모드냐?
+
+    public GameObject CrosshairUI;
+    public GameObject CrosshairZoomUI;
     
     
     // 총을 담는 인벤토리
@@ -48,6 +51,9 @@ public class PlayerGunFire : MonoBehaviour
     {
         GunImageUI.sprite = CurrentGun.ProfileImage;
         BulletTextUI.text = $"{CurrentGun.BulletRemainCount:d2}/{CurrentGun.BulletMaxCount}";
+        
+        CrosshairUI.SetActive(!_isZoomMode);
+        CrosshairZoomUI.SetActive(_isZoomMode);
     }
 
     private IEnumerator Reload_Coroutine()
@@ -66,16 +72,18 @@ public class PlayerGunFire : MonoBehaviour
     {
         if (Input.GetMouseButtonDown(2))
         {
-            if (isZoomMode)
+            if (_isZoomMode)
             {
-                isZoomMode = false;
+                _isZoomMode = false;
                 Camera.main.fieldOfView = DefaultFOV;
             }
             else
             {
-                isZoomMode = true;
+                _isZoomMode = true;
                 Camera.main.fieldOfView = ZoomFOV;
             }
+
+            RefreshUI();
         }
         
         

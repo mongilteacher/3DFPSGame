@@ -15,6 +15,11 @@ public class PlayerGunFire : MonoBehaviour
     private const int DefaultFOV = 60;
     private const int ZoomFOV    = 20;
     private bool _isZoomMode = false;  // 줌 모드냐?
+    private const float ZoomInDuration  = 0.3f;
+    private const float ZoomOutDuration = 0.2f;
+    private float _zoomProgress; // 0 ~ 1
+    
+    
 
     public GameObject CrosshairUI;
     public GameObject CrosshairZoomUI;
@@ -87,10 +92,24 @@ public class PlayerGunFire : MonoBehaviour
         if (Input.GetMouseButtonDown(2) && CurrentGun.GType == GunType.Sniper)
         {
             _isZoomMode = !_isZoomMode; // 줌 모드 뒤집기
-            RefreshZoomMode();
-            
+            _zoomProgress = 0f;
             RefreshUI();
         }
+
+        if (CurrentGun.GType == GunType.Sniper && _zoomProgress < 1)
+        {
+            if (_isZoomMode) // 줌인
+            {
+                _zoomProgress += Time.deltaTime / ZoomInDuration;
+                Camera.main.fieldOfView = Mathf.Lerp(DefaultFOV, ZoomFOV, _zoomProgress);
+            }
+            else
+            {
+                _zoomProgress += Time.deltaTime / ZoomOutDuration;
+                Camera.main.fieldOfView = Mathf.Lerp(ZoomFOV, DefaultFOV, _zoomProgress);
+            }
+        }
+        
         
         
         if (Input.GetKeyDown(KeyCode.LeftBracket)) // '['
@@ -103,6 +122,7 @@ public class PlayerGunFire : MonoBehaviour
             }
             CurrentGun = GunInventory[_currentGunIndex];
             _isZoomMode = false;
+            _zoomProgress = 1f;
             RefreshZoomMode();
             RefreshGun();
             RefreshUI();
@@ -117,6 +137,7 @@ public class PlayerGunFire : MonoBehaviour
             }
             CurrentGun = GunInventory[_currentGunIndex];
             _isZoomMode = false;
+            _zoomProgress = 1f;
             RefreshZoomMode();
             RefreshGun();
             RefreshUI();
@@ -126,6 +147,7 @@ public class PlayerGunFire : MonoBehaviour
             _currentGunIndex = 0;
             CurrentGun = GunInventory[0];
             _isZoomMode = false;
+            _zoomProgress = 1f;
             RefreshZoomMode();
             RefreshGun();
             RefreshUI();
@@ -135,6 +157,7 @@ public class PlayerGunFire : MonoBehaviour
             _currentGunIndex = 1;
             CurrentGun = GunInventory[1];
             _isZoomMode = false;
+            _zoomProgress = 1f;
             RefreshZoomMode();
             RefreshGun();
             RefreshUI();
@@ -144,6 +167,7 @@ public class PlayerGunFire : MonoBehaviour
             _currentGunIndex = 2;
             CurrentGun = GunInventory[2];
             _isZoomMode = false;
+            _zoomProgress = 1f;
             RefreshZoomMode();
             RefreshGun();
             RefreshUI();

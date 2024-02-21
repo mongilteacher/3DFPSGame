@@ -72,15 +72,13 @@ public class PlayerGunFire : MonoBehaviour
     // 줌 모드에 따라 카메라 FOV 수정해주는 메서드
     private void RefreshZoomMode()
     {
-        StopAllCoroutines();
-        
         if (!_isZoomMode)
         {
             Camera.main.fieldOfView = DefaultFOV;
         }
         else
         {
-            //Camera.main.fieldOfView = ZoomFOV;
+            Camera.main.fieldOfView = ZoomFOV;
         }
     }
     private void Update()
@@ -90,12 +88,6 @@ public class PlayerGunFire : MonoBehaviour
         {
             _isZoomMode = !_isZoomMode; // 줌 모드 뒤집기
             RefreshZoomMode();
-
-            if (_isZoomMode)
-            {
-                StartCoroutine(ZoomIn_Coroutine());
-            }
-            
             
             RefreshUI();
         }
@@ -224,24 +216,6 @@ public class PlayerGunFire : MonoBehaviour
                 gun.gameObject.SetActive(false);
             }**/
             gun.gameObject.SetActive(gun == CurrentGun);
-        }
-    }
-
-    private IEnumerator ZoomIn_Coroutine()
-    {
-        float time = 0.3f;    // 원하는 시간
-        float timer = 0f;     // 시간 누적 변수
-
-        while (true)
-        {
-            timer += Time.deltaTime / time;
-            Camera.main.fieldOfView = Mathf.Lerp(DefaultFOV, ZoomFOV, timer);
-            yield return null;
-
-            if (timer > 1f)
-            {
-                yield break;
-            }
         }
     }
 }

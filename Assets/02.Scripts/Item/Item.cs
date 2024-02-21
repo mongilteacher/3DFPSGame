@@ -9,7 +9,7 @@ public enum ItemType
     Bullet   // 현재 들고있는 총의 총알이 꽉찬다.
 }
 
-public class Item : MonoBehaviour
+public class Item
 {
     public ItemType ItemType;
     public int Count;

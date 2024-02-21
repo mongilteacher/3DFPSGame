@@ -7,7 +7,7 @@ using UnityEngine.UI;
 // 데이터 관리 -> 데이터를 생성, 수정, 삭제, 조회(검색)
 public class ItemManager : MonoBehaviour
 {
-    public ItemManager Instance { get; private set; }
+    public static ItemManager Instance { get; private set; }
 
     public Text HealthItemCountTextUI;
     public Text StaminaItemCountTextUI;
@@ -82,7 +82,7 @@ public class ItemManager : MonoBehaviour
 
 
     // UI를 새로고침 하는 함수
-    private void RefreshUI()
+    public void RefreshUI()
     {
         HealthItemCountTextUI.text  = $"x{GetItemCount(ItemType.Health)}";
         StaminaItemCountTextUI.text = $"x{GetItemCount(ItemType.Stamina)}";

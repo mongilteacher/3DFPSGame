@@ -5,7 +5,7 @@ using System.Security.Cryptography;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class PlayerGunFire : MonoBehaviour
+public class PlayerGunFireAbility : MonoBehaviour
 {
     public Gun CurrentGun;        // 현재 들고있는 총
     private int _currentGunIndex; // 현재 들고있는 총의 순서

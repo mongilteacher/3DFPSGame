@@ -95,8 +95,8 @@ GameObject:
   - component: {fileID: 2186252948288023333}
   - component: {fileID: 406914946319931573}
   - component: {fileID: 8847873987673716860}
-  - component: {fileID: 3174822580434972308}
   - component: {fileID: 6268906846130722100}
+  - component: {fileID: 6390772617320444378}
   m_Layer: 8
   m_Name: Monster
   m_TagString: Untagged
@@ -172,8 +172,25 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!136 &3174822580434972308
-CapsuleCollider:
+--- !u!114 &6268906846130722100
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1736078231029010764}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5b80c6cb18229d849a8701244d4c0508, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Health: 0
+  MaxHealth: 100
+  HealthSliderUI: {fileID: 3325960273271724146}
+  Target: {fileID: 0}
+  FindDistance: 5
+--- !u!143 &6390772617320444378
+CharacterController:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -190,29 +207,14 @@ CapsuleCollider:
   m_IsTrigger: 0
   m_ProvidesContacts: 0
   m_Enabled: 1
-  serializedVersion: 2
-  m_Radius: 0.5
+  serializedVersion: 3
   m_Height: 2
-  m_Direction: 1
+  m_Radius: 0.5
+  m_SlopeLimit: 45
+  m_StepOffset: 0.3
+  m_SkinWidth: 0.08
+  m_MinMoveDistance: 0.001
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &6268906846130722100
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1736078231029010764}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5b80c6cb18229d849a8701244d4c0508, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Health: 0
-  MaxHealth: 100
-  HealthSliderUI: {fileID: 3325960273271724146}
-  HealthItemPrefab: {fileID: 8992937477233538512, guid: 6df7fea3a9ac4db49934c99ec8ba579f, type: 3}
-  StaminaItemPrefab: {fileID: 5885887273398802009, guid: 21947b5ef06e0cb4ca1e07866a73812d, type: 3}
-  BulletItemPrefab: {fileID: 3863838512470846912, guid: 8f7e6c106ec8e7b41960b7d0ab675d30, type: 3}
 --- !u!1 &2890431239543216947
 GameObject:
   m_ObjectHideFlags: 0

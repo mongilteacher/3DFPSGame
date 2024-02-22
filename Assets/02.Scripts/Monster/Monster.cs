@@ -23,16 +23,20 @@ public class Monster : MonoBehaviour, IHitable
     
     private CharacterController _characterController;
 
-    private Transform _target;       // 플레이어
+    private Transform _target;         // 플레이어
     public float FindDistance   = 5f;  // 감지 거리
     public float AttackDistance = 2f;  // 공격 범위 
-
+    public float MoveSpeed      = 4f;  // 이동 상태
+    public Vector3 StartPoisition;     // 시작 위치
+    public float MoveDistance   = 40f; // 움직일 수 있는 거리
+    
     private MonsterState _currentState = MonsterState.Idle;
     
     private void Start()
     {
         _characterController = GetComponent<CharacterController>();
         _target = GameObject.FindGameObjectWithTag("Player").transform;
+        StartPoisition = transform.position;
         
         Init();
     }
@@ -77,8 +81,26 @@ public class Monster : MonoBehaviour, IHitable
         // Trace 상태일때의 행동 코드를 작성
         
         // 플레이어게 다가간다.
+        // 1. 방향을 구한다. (target - me)
+        Vector3 dir = _target.transform.position - this.transform.position;
+        dir.y = 0;
+        dir.Normalize();
+        // 2. 이동한다.
+        _characterController.Move(dir * MoveSpeed * Time.deltaTime);
+        // 3. 쳐다본다.
+        transform.LookAt(_target);
 
-
+        if (Vector3.Distance(transform.position, StartPoisition) >= MoveDistance)
+        {
+            Debug.Log("상태 전환: Trace -> Return");
+            _currentState = MonsterState.Return;
+        }
+        
+        // if (Vector3.Distance(_target.position, transform.position) <= AttackDistance)
+        // {
+        //     Debug.Log("상태 전환: Trace -> Attack");
+        //                 _currentState = MonsterState.Attack;
+        // }
     }
     
     

@@ -187,8 +187,9 @@ MonoBehaviour:
   Health: 0
   MaxHealth: 100
   HealthSliderUI: {fileID: 3325960273271724146}
-  Target: {fileID: 0}
   FindDistance: 5
+  AttackDistance: 2
+  MoveSpeed: 3
 --- !u!143 &6390772617320444378
 CharacterController:
   m_ObjectHideFlags: 0

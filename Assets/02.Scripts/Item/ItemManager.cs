@@ -46,6 +46,7 @@ public class ItemManager : MonoBehaviour
             if (ItemList[i].ItemType == itemType)
             {
                 ItemList[i].Count++;
+                RefreshUI();
                 break;
             }
         }
@@ -57,7 +58,7 @@ public class ItemManager : MonoBehaviour
         for (int i = 0; i < ItemList.Count; i++)
         {
             if (ItemList[i].ItemType == itemType)
-            {
+            { 
                 return ItemList[i].Count;
             }
         }
@@ -73,7 +74,9 @@ public class ItemManager : MonoBehaviour
         {
             if (ItemList[i].ItemType == itemType)
             {
-                return ItemList[i].TryUse();
+                bool result =  ItemList[i].TryUse();
+                RefreshUI();
+                return result;
             }
         }
 

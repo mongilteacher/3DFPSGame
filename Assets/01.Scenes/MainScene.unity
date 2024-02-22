@@ -497,6 +497,53 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &83972653
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 83972655}
+  - component: {fileID: 83972654}
+  m_Layer: 0
+  m_Name: ItemObjectFactory
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &83972654
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 83972653}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c98e92ce78005794092504b663397044, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  HealthItemPrefab: {fileID: 8992937477233538512, guid: 6df7fea3a9ac4db49934c99ec8ba579f, type: 3}
+  StaminaItemPrefab: {fileID: 5885887273398802009, guid: 21947b5ef06e0cb4ca1e07866a73812d, type: 3}
+  BulletItemPrefab: {fileID: 3863838512470846912, guid: 8f7e6c106ec8e7b41960b7d0ab675d30, type: 3}
+--- !u!4 &83972655
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 83972653}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &100333494
 GameObject:
   m_ObjectHideFlags: 0
@@ -5719,3 +5766,4 @@ SceneRoots:
   - {fileID: 375558092}
   - {fileID: 2022964871}
   - {fileID: 771552530}
+  - {fileID: 83972655}

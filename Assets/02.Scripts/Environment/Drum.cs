@@ -75,6 +75,8 @@ public class Drum : MonoBehaviour, IHitable
             }
         }
         
+        ItemObjectFactory.Instance.MakePercent(transform.position);        
+
         
         StartCoroutine(Kill_Coroutine());
     }

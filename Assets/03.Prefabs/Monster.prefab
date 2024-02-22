@@ -190,6 +190,10 @@ MonoBehaviour:
   FindDistance: 5
   AttackDistance: 2
   MoveSpeed: 3
+  StartPosition: {x: 0, y: 0, z: 0}
+  MoveDistance: 40
+  Damage: 10
+  KnockbackPower: 0.5
 --- !u!143 &6390772617320444378
 CharacterController:
   m_ObjectHideFlags: 0

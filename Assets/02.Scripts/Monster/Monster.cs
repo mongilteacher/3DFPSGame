@@ -30,6 +30,15 @@ public class Monster : MonoBehaviour, IHitable
     public Vector3 StartPosition;     // 시작 위치
     public float MoveDistance   = 40f; // 움직일 수 있는 거리
     public const float TOLERANCE = 0.1f;
+    public int Damage = 10;
+    public const float AttackDelay = 1f;
+    private float _attackTimer = 0f;
+
+    private Vector3 _knockbackStartPosition;
+    private Vector3 _knockbackEndPosition;
+    private const float KNOCKBACK_DURATION = 0.1f;
+    private float _knockbackProgress = 0f;
+    public float KnockbackPower = 1.2f;
         
         
     private MonsterState _currentState = MonsterState.Idle;
@@ -69,6 +78,14 @@ public class Monster : MonoBehaviour, IHitable
             case MonsterState.Comeback:
                 Comeback();
                 break;
+            
+            case MonsterState.Attack:
+                Attack();
+                break;
+            
+            case MonsterState.Damaged:
+                Damaged();
+                break;
         }
     }
 
@@ -102,14 +119,14 @@ public class Monster : MonoBehaviour, IHitable
             _currentState = MonsterState.Comeback;
         }
         
-        // if (Vector3.Distance(_target.position, transform.position) <= AttackDistance)
-        // {
-        //     Debug.Log("상태 전환: Trace -> Attack");
-        //                 _currentState = MonsterState.Attack;
-        // }
+        if (Vector3.Distance(_target.position, transform.position) <= AttackDistance)
+        {
+            Debug.Log("상태 전환: Trace -> Attack");
+            _currentState = MonsterState.Attack;
+        }
     }
 
-    public void Comeback()
+    private void Comeback()
     {
         // 실습 과제 34. 복귀 상태의 행동 구현하기:
         // 시작 지점 쳐다보면서 시작지점으로 이동하기 (이동 완료하면 다시 Idle 상태로 전환)
@@ -129,7 +146,64 @@ public class Monster : MonoBehaviour, IHitable
         }
         
     }
-    
+
+    private void Attack()
+    {
+        // 전이 사건: 플레이어와 거리가 공격 범위보다 멀어지면 다시 Trace
+        if (Vector3.Distance(_target.position, transform.position) > AttackDistance)
+        {
+            _attackTimer = 0f;
+            Debug.Log("상태 전환: Attack -> Trace");
+            _currentState = MonsterState.Trace;
+            return;
+        }
+        
+        // 실습 과제 35. Attack 상태일 때 N초에 한 번 때리게 딜레이 주기
+        _attackTimer += Time.deltaTime;
+        if (_attackTimer >= AttackDelay)
+        {
+            IHitable playerHitable = _target.GetComponent<IHitable>();
+            if (playerHitable != null)
+            {
+                Debug.Log("때렸다!");
+                playerHitable.Hit(Damage);
+                _attackTimer = 0f;
+            }
+        }
+        
+    }
+
+    private void Damaged()
+    {
+        // 1. Damage 애니메이션 실행(0.5초)
+        // todo: 애니메이션 실행
+        
+        // 2. 넉백 구현
+        // 2-1. 넉백 시작/최종 위치를 구한다.
+        if (_knockbackProgress == 0)
+        {
+            _knockbackStartPosition = transform.position;
+            
+            Vector3 dir = transform.position - _target.position;
+            dir.y = 0;
+            dir.Normalize();
+            
+            _knockbackEndPosition = transform.position + dir * KnockbackPower;
+        }
+
+        _knockbackProgress += Time.deltaTime / KNOCKBACK_DURATION;
+       
+        // 2-2. Lerp를 이용해 넉백하기
+        transform.position = Vector3.Lerp(_knockbackStartPosition, _knockbackEndPosition, _knockbackProgress);
+
+        if (_knockbackProgress > 1)
+        {
+            _knockbackProgress = 0f;
+            
+            Debug.Log("상태 전환: Damaged -> Trace");
+            _currentState = MonsterState.Trace;
+        }
+    }
     
     public void Hit(int damage)
     {
@@ -137,6 +211,11 @@ public class Monster : MonoBehaviour, IHitable
         if (Health <= 0)
         {
             Die();
+        }
+        else
+        {
+            Debug.Log("상태 전환: Any -> Damaged");
+            _currentState = MonsterState.Damaged;
         }
     }
 

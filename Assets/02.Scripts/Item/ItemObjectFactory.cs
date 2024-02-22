@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 // 아이템 공장의 역할: 아이템 오브젝트의 생성을 책임진다.
@@ -13,7 +11,7 @@ using UnityEngine;
 // 단점:
 // 1. 상대적으로 쪼끔 더 복잡하다.
 // 2. 그래서 공부해야 한다.
-// 3. 한마디로 단점이 없다.
+// 3. 그거 말고는 단점이 없다.
 public class ItemObjectFactory : MonoBehaviour
 {
     public static ItemObjectFactory Instance { get; private set; }
@@ -27,7 +25,7 @@ public class ItemObjectFactory : MonoBehaviour
     public GameObject StaminaItemPrefab;
     public GameObject BulletItemPrefab;
 
-    // 확률 생성
+    // 확률 생성 (공장아! 랜덤박스 주문할게!)
     public void MakePercent(Vector3 position)
     {
         int percentage = UnityEngine.Random.Range(0, 100);
@@ -45,7 +43,7 @@ public class ItemObjectFactory : MonoBehaviour
         }
     }
     
-    // 기본 생성
+    // 기본 생성 (공장아! 내가 원하는거 주문할게!)
     public void Make(ItemType itemType, Vector3 position)
     {
         GameObject gameObject = null;

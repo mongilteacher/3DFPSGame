@@ -51,6 +51,8 @@ public class Monster : MonoBehaviour, IHitable
     {
         //_characterController = GetComponent<CharacterController>();
         _navMeshAgent = GetComponent<NavMeshAgent>();
+        _navMeshAgent.speed = MoveSpeed;
+        
         
         _target = GameObject.FindGameObjectWithTag("Player").transform;
         

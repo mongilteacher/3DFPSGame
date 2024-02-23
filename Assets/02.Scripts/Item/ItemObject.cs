@@ -42,8 +42,10 @@ public class ItemObject : MonoBehaviour
 
     public void Init()
     {
+        _startPosition = transform.position;
         _progress = 0f;
         _traceCoroutine = null;
+        _itemState = ItemState.Idle;
     }
     
     private void Idle()
@@ -60,7 +62,7 @@ public class ItemObject : MonoBehaviour
     private Coroutine _traceCoroutine;
     private void Trace()
     {
-        if (_traceCoroutine != null)
+        if (_traceCoroutine == null)
         {
             _traceCoroutine = StartCoroutine(Trace_Coroutine());
         }

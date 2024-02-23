@@ -35,6 +35,8 @@ public class CameraManager : MonoBehaviour
             return !isScreen;
         }
     }
+
+    public CameraShake CameraShake;
     
     private FPSCamera _FPSCamera;
     private TPSCamera _TPSCamera;

@@ -196,6 +196,8 @@ public class PlayerMoveAbility : MonoBehaviour, IHitable
     public void Hit(int damage)
     {
         StartCoroutine(HitEffect_Coroutine(0.2f));
+        CameraManager.Instance.CameraShake.Shake();
+        
         Health -= damage;
         if (Health <= 0)
         {

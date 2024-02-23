@@ -8,6 +8,7 @@ using UnityEngine.AI;
 public enum MonsterState // 몬스터의 상태
 {
     Idle,           // 대기
+    Patrol,         // 순찰
     Trace,          // 추적
     Attack,         // 공격
     Comeback,       // 복귀
@@ -43,6 +44,10 @@ public class Monster : MonoBehaviour, IHitable
     private const float KNOCKBACK_DURATION = 0.1f;
     private float _knockbackProgress = 0f;
     public float KnockbackPower = 1.2f;
+
+    private const float IDLE_DURATION = 3f;
+    private float _idleTimer;
+    public Transform PatrolTarget;
         
         
     private MonsterState _currentState = MonsterState.Idle;
@@ -63,6 +68,7 @@ public class Monster : MonoBehaviour, IHitable
     
     public void Init()
     {
+        _idleTimer = 0f;
         Health = MaxHealth;
     }
     
@@ -78,6 +84,10 @@ public class Monster : MonoBehaviour, IHitable
         {
             case MonsterState.Idle:
                 Idle();
+                break;
+            
+            case MonsterState.Patrol:
+                Patrol();
                 break;
             
             case MonsterState.Trace:
@@ -100,6 +110,16 @@ public class Monster : MonoBehaviour, IHitable
 
     private void Idle()
     {
+        _idleTimer += Time.deltaTime;
+
+        if (PatrolTarget != null && _idleTimer >= IDLE_DURATION)
+        {
+            _idleTimer = 0f;
+            Debug.Log("상태 전환: Idle -> Patrol");
+            _currentState = MonsterState.Patrol;
+        }
+        
+        
         // todo: 몬스터의 Idle 애니메이션 재생
         if(Vector3.Distance(_target.position, transform.position) <= FindDistance)
         {
@@ -141,6 +161,27 @@ public class Monster : MonoBehaviour, IHitable
             _currentState = MonsterState.Attack;
         }
     }
+
+    private void Patrol()
+    {
+        _navMeshAgent.stoppingDistance = 0f;
+        _navMeshAgent.SetDestination(PatrolTarget.position);
+
+        if (_navMeshAgent.remainingDistance <= TOLERANCE)
+        {
+            Debug.Log("상태 전환: Patrol -> Comeback");
+            _currentState = MonsterState.Comeback;
+        }
+        
+        if(Vector3.Distance(_target.position, transform.position) <= FindDistance)
+        {
+            Debug.Log("상태 전환: Patrol -> Trace");
+            _currentState = MonsterState.Trace;
+        }
+        
+        
+    }
+    
 
     private void Comeback()
     {

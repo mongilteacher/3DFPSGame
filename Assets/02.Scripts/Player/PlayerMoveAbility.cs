@@ -192,6 +192,7 @@ public class PlayerMoveAbility : MonoBehaviour, IHitable
         Health -= damage;
         if (Health <= 0)
         {
+            HealthSliderUI.value = 0f;
             gameObject.SetActive(false);
         }
     }

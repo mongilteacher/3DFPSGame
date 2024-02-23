@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 
 public class ItemObject : MonoBehaviour
@@ -39,6 +40,12 @@ public class ItemObject : MonoBehaviour
         }
     }
 
+    public void Init()
+    {
+        _progress = 0f;
+        _traceCoroutine = null;
+    }
+    
     private void Idle()
     {
         // 대기 상태의 행동: 플레이어와의 거리를 체크한다.
@@ -50,18 +57,29 @@ public class ItemObject : MonoBehaviour
         }
     }
 
+    private Coroutine _traceCoroutine;
     private void Trace()
     {
-        _progress += Time.deltaTime / TRACE_DURATION;
-        transform.position = Vector3.Slerp(_startPosition, _player.position, _progress);
-
-        if (_progress >= 0.6)
+        if (_traceCoroutine != null)
         {
-            // 1. 아이템 매니저(인벤토리)에 추가하고,
-            ItemManager.Instance.AddItem(ItemType);
-            
-            // 2. 사라진다.
-            gameObject.SetActive(false);
+            _traceCoroutine = StartCoroutine(Trace_Coroutine());
         }
+    }
+
+    private IEnumerator Trace_Coroutine()
+    {
+        while (_progress < 0.6)
+        {
+            _progress += Time.deltaTime / TRACE_DURATION;
+            transform.position = Vector3.Slerp(_startPosition, _player.position, _progress);
+
+            yield return null;
+        }
+        
+        // 1. 아이템 매니저(인벤토리)에 추가하고,
+        ItemManager.Instance.AddItem(ItemType);
+            
+        // 2. 사라진다.
+        gameObject.SetActive(false);
     }
 }

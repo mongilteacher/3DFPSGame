@@ -2,6 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.AI;
+
 
 public enum MonsterState // 몬스터의 상태
 {
@@ -21,8 +23,10 @@ public class Monster : MonoBehaviour, IHitable
     public Slider HealthSliderUI;
     /***********************************************************************/
     
-    private CharacterController _characterController;
-
+    //private CharacterController _characterController;
+    private NavMeshAgent _navMeshAgent;
+    
+    
     private Transform _target;         // 플레이어
     public float FindDistance   = 5f;  // 감지 거리
     public float AttackDistance = 2f;  // 공격 범위 
@@ -45,8 +49,11 @@ public class Monster : MonoBehaviour, IHitable
     
     private void Start()
     {
-        _characterController = GetComponent<CharacterController>();
+        //_characterController = GetComponent<CharacterController>();
+        _navMeshAgent = GetComponent<NavMeshAgent>();
+        
         _target = GameObject.FindGameObjectWithTag("Player").transform;
+        
         StartPosition = transform.position;
         
         Init();
@@ -109,9 +116,16 @@ public class Monster : MonoBehaviour, IHitable
         dir.y = 0;
         dir.Normalize();
         // 2. 이동한다.
-        _characterController.Move(dir * MoveSpeed * Time.deltaTime);
-        // 3. 쳐다본다.
-        transform.forward = dir; //(_target);
+       // _characterController.Move(dir * MoveSpeed * Time.deltaTime);
+
+       // 내비게이션이 접근하는 최소 거리를 공격 가능 거리로 설정
+       _navMeshAgent.stoppingDistance = AttackDistance;
+       
+       // 내비게이션의 목적지를 플레이어의 위치로 한다.
+       _navMeshAgent.destination = _target.position;
+            
+            // 3. 쳐다본다.
+        //transform.forward = dir; //(_target);
 
         if (Vector3.Distance(transform.position, StartPosition) >= MoveDistance)
         {
@@ -135,10 +149,22 @@ public class Monster : MonoBehaviour, IHitable
         dir.y = 0;
         dir.Normalize();
         // 2. 이동한다.
-        _characterController.Move(dir * MoveSpeed * Time.deltaTime);
+        //_characterController.Move(dir * MoveSpeed * Time.deltaTime);
         // 3. 쳐다본다.
-        transform.forward = dir; //(_target);
+        //transform.forward = dir; //(_target);
 
+        // 내비게이션이 접근하는 최소 거리를 오차 범위
+        _navMeshAgent.stoppingDistance = TOLERANCE;
+       
+        // 내비게이션의 목적지를 플레이어의 위치로 한다.
+        _navMeshAgent.destination = StartPosition;
+
+        if (!_navMeshAgent.pathPending && _navMeshAgent.remainingDistance <= TOLERANCE)
+        {
+            Debug.Log("상태 전환: Comeback -> idle");
+            _currentState = MonsterState.Idle;
+        }
+        
         if (Vector3.Distance(StartPosition, transform.position) <= TOLERANCE)
         {
             Debug.Log("상태 전환: Comeback -> idle");

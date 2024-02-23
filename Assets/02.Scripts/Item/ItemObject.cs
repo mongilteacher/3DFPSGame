@@ -1,17 +1,61 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class ItemObject : MonoBehaviour
 {
-    public ItemType ItemType;
-    
-    // Todo 1. 아이템 프리팹을 3개(Health, Stamina, Bullet) 만든다. (도형이나 색깔 다르게해서 구별되게)
-    // Todo 2. 플레이어와 일정 거리가 되면 아이템이 먹어지고 사라진다.
-    private void OnTriggerEnter(Collider collider)
+    public enum ItemState
     {
-        if (collider.CompareTag("Player"))
+        Idle,  // 대기 상태     (플레이어와의 거리를 체크한다.)
+        // ▼ (if 충분히 가까워 지면..)
+        Trace, // 날라오는 상태  (N초에 걸쳐서 Slerp로 플레이어에게 날라온다.)
+    }
+    public ItemType ItemType;
+    private ItemState _itemState = ItemState.Idle;
+
+    private Transform _player;
+    public float EatDistance = 5f;
+
+    private Vector3 _startPosition;
+    private const float TRACE_DURATION = 0.3f;
+    private float _progress = 0;
+    
+    private void Start()
+    {
+        _player = GameObject.FindWithTag("Player").transform;
+        _startPosition = transform.position;
+    }
+    
+
+    private void Update()
+    {
+        switch (_itemState)
+        {
+            case ItemState.Idle:
+                Idle();
+                break;
+            
+            case ItemState.Trace:
+                Trace();
+                break;
+        }
+    }
+
+    private void Idle()
+    {
+        // 대기 상태의 행동: 플레이어와의 거리를 체크한다.
+        float distance = Vector3.Distance(_player.position, transform.position);
+        // 전이 조건: 충분히 가까워 지면..
+        if (distance <= EatDistance)
+        {
+            _itemState = ItemState.Trace;
+        }
+    }
+
+    private void Trace()
+    {
+        _progress += Time.deltaTime / TRACE_DURATION;
+        transform.position = Vector3.Slerp(_startPosition, _player.position, _progress);
+
+        if (_progress >= 0.6)
         {
             // 1. 아이템 매니저(인벤토리)에 추가하고,
             ItemManager.Instance.AddItem(ItemType);

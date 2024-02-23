@@ -167,7 +167,7 @@ public class Monster : MonoBehaviour, IHitable
         _navMeshAgent.stoppingDistance = 0f;
         _navMeshAgent.SetDestination(PatrolTarget.position);
 
-        if (_navMeshAgent.remainingDistance <= TOLERANCE)
+        if (!_navMeshAgent.pathPending && _navMeshAgent.remainingDistance <= TOLERANCE)
         {
             Debug.Log("상태 전환: Patrol -> Comeback");
             _currentState = MonsterState.Comeback;

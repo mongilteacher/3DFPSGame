@@ -63,7 +63,8 @@ public class PlayerMoveAbility : MonoBehaviour, IHitable
     public int MaxHealth = 100;
     public Slider HealthSliderUI;
 
-    
+
+    public Image HitEffectImageUI;
     
     
     private void Awake()
@@ -155,6 +156,11 @@ public class PlayerMoveAbility : MonoBehaviour, IHitable
         // 땅에 닿아을때 
         if (_characterController.isGrounded)
         {
+            if (_yVelocity < -20)
+            {
+                Hit(10 * (int)(_yVelocity / -10f));
+            }
+            
             _isJumping = false;
             _isClimbing = false;
             _yVelocity = 0f;
@@ -189,11 +195,20 @@ public class PlayerMoveAbility : MonoBehaviour, IHitable
     
     public void Hit(int damage)
     {
+        StartCoroutine(HitEffect_Coroutine(0.2f));
         Health -= damage;
         if (Health <= 0)
         {
             HealthSliderUI.value = 0f;
             gameObject.SetActive(false);
         }
+    }
+
+    private IEnumerator HitEffect_Coroutine(float delay)
+    {
+        // 과제 40. 히트 이펙트 이미지 0.3초동안 보이게 구현
+        HitEffectImageUI.gameObject.SetActive(true);
+        yield return new WaitForSeconds(delay);
+        HitEffectImageUI.gameObject.SetActive(false);
     }
 }

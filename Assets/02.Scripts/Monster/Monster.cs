@@ -76,6 +76,11 @@ public class Monster : MonoBehaviour, IHitable
     {
         HealthSliderUI.value = (float)Health / (float)MaxHealth;  // 0 ~ 1
         
+        if (GameManager.Instance.State != GameState.Go)
+        {
+            return;
+        }
+        
         // 상태 패턴: 상태에 따라 행동을 다르게 하는 패턴 
         // 1. 몬스터가 가질 수 있는 행동에 따라 상태를 나눈다.
         // 2. 상태들이 조건에 따라 자연스럽게 전환(Transition)되게 설계한다.

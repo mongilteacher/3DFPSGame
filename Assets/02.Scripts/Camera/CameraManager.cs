@@ -76,6 +76,11 @@ public class CameraManager : MonoBehaviour
 
     private void Update()
     {
+        if (GameManager.Instance.State != GameState.Go)
+        {
+            return;
+        }
+        
         if (Input.GetMouseButtonDown(0))
         {
             if (Cursor.lockState == CursorLockMode.None)
@@ -107,6 +112,11 @@ public class CameraManager : MonoBehaviour
     
     private void LateUpdate()
     {
+        if (GameManager.Instance.State != GameState.Go)
+        {
+            return;
+        }
+        
         if (!Focus)
         {
             return;

@@ -13,10 +13,19 @@ public enum GameState
 }
 public class GameManager : MonoBehaviour
 {
+    public static GameManager Instance { get; private set; }
+    
     // 게임의 상태는 처음에 "준비" 상태
-    public GameState State = GameState.Ready;
+    public GameState State { get; private set;} = GameState.Ready;
 
     public Text StateTextUI;
+
+    public Color GoStateColor;
+
+    private void Awake()
+    {
+        Instance = this;
+    }
     
     private void Start()
     {
@@ -42,16 +51,12 @@ public class GameManager : MonoBehaviour
     }
 
     // 4. 플레이를 하다가
-    public PlayerMoveAbility Player;
-    private void Update()
+    // 5. 플레이어 체력이 0이 되면 "게임 오버" 상태
+    public void GameOver()
     {
-        // 5. 플레이어 체력이 0이 되면 "게임 오버" 상태
-        if (Player.Health <= 0)
-        {
-            State = GameState.Over;
-            StateTextUI.gameObject.SetActive(true);
-            Refresh();
-        }
+        State = GameState.Over;
+        StateTextUI.gameObject.SetActive(true);
+        Refresh();
     }
     
     
@@ -64,18 +69,21 @@ public class GameManager : MonoBehaviour
             case GameState.Ready:
             {
                 StateTextUI.text = "Ready...";
+                StateTextUI.color = new Color32(0, 253, 181,255);
                 break;
             }
 
             case GameState.Go:
             {
                 StateTextUI.text = "Go!";
+                StateTextUI.color = GoStateColor;
                 break;
             }
 
             case GameState.Over:
             {
                 StateTextUI.text = "Game Over";
+                StateTextUI.color = Color.red;
                 break;
             }
         

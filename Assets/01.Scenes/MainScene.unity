@@ -4003,6 +4003,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   State: 0
   StateTextUI: {fileID: 1276243095}
+  GoStateColor: {r: 1, g: 0, b: 0.87249756, a: 1}
   Player: {fileID: 678037551}
 --- !u!1 &826404076
 GameObject:
@@ -5199,7 +5200,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1276243094
 RectTransform:
   m_ObjectHideFlags: 0

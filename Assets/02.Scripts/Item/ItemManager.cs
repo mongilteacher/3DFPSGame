@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -9,9 +10,9 @@ public class ItemManager : MonoBehaviour
 {
     public static ItemManager Instance { get; private set; }
 
-    public Text HealthItemCountTextUI;
-    public Text StaminaItemCountTextUI;
-    public Text BulletItemCountTextUI;
+    public TextMeshProUGUI HealthItemCountTextUI;
+    public TextMeshProUGUI StaminaItemCountTextUI;
+    public TextMeshProUGUI BulletItemCountTextUI;
     
 
     private void Awake()

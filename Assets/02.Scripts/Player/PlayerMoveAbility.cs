@@ -211,7 +211,7 @@ public class PlayerMoveAbility : MonoBehaviour, IHitable
         
         Health -= damage;
         
-        _animator.SetLayerWeight(1, 1 - Health / (float)MaxHealth);
+        RefreshAnimation();
         
         if (Health <= 0)
         {
@@ -220,6 +220,11 @@ public class PlayerMoveAbility : MonoBehaviour, IHitable
 
             GameManager.Instance.GameOver();
         }
+    }
+
+    public void RefreshAnimation()
+    {
+        _animator.SetLayerWeight(1, 1 - Health / (float)MaxHealth);
     }
 
     private IEnumerator HitEffect_Coroutine(float delay)

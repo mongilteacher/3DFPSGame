@@ -7,6 +7,8 @@ using UnityEngine.UI;
 
 public class PlayerGunFireAbility : MonoBehaviour
 {
+    private Animator _animator;
+    
     public Gun CurrentGun;        // 현재 들고있는 총
     private int _currentGunIndex; // 현재 들고있는 총의 순서
     
@@ -46,6 +48,8 @@ public class PlayerGunFireAbility : MonoBehaviour
     
     private void Start()
     {
+        _animator  = GetComponentInChildren<Animator>();
+
         _currentGunIndex = 0;
         
         // 총알 개수 초기화
@@ -200,6 +204,8 @@ public class PlayerGunFireAbility : MonoBehaviour
                 StopAllCoroutines();
                 _isReloading = false;
             }
+            
+            _animator.SetTrigger("Shoot");
             
             CurrentGun.BulletRemainCount -= 1;
             RefreshUI();

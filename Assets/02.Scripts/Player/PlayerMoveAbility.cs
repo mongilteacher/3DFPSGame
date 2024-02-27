@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor.Animations;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -20,6 +21,8 @@ public class PlayerMoveAbility : MonoBehaviour, IHitable
     public Slider StaminaSliderUI;
 
     private CharacterController _characterController;
+    private Animator _animator;
+    
 
     // 목표: 스페이스바를 누르면 캐릭터를 점프하고 싶다.
     // 필요 속성:
@@ -70,6 +73,7 @@ public class PlayerMoveAbility : MonoBehaviour, IHitable
     private void Awake()
     {
         _characterController = GetComponent<CharacterController>();
+        _animator  = GetComponentInChildren<Animator>();
     }
     
     private void Start()
@@ -125,10 +129,11 @@ public class PlayerMoveAbility : MonoBehaviour, IHitable
         
         // 2. '캐릭터가 바라보는 방향'을 기준으로 방향구하기
         Vector3 dir = new Vector3(h, 0, v);             // 로컬 좌표꼐 (나만의 동서남북) 
+        Vector3 unNormalizedDir = dir;
         dir.Normalize();
         // Transforms direction from local space to world space.
         dir = Camera.main.transform.TransformDirection(dir); // 글로벌 좌표계 (세상의 동서남북)
-
+        
         // 실습 과제 1. Shift 누르고 있으면 빨리 뛰기
         float speed = MoveSpeed; // 5
         if (_isClimbing || Input.GetKey(KeyCode.LeftShift)) // 실습 과제 2. 스태미너 구현
@@ -196,6 +201,7 @@ public class PlayerMoveAbility : MonoBehaviour, IHitable
         // 3-2. 이동하기
         //transform.position += speed * dir * Time.deltaTime;
         _characterController.Move(dir * speed * Time.deltaTime);
+        _animator.SetFloat("Move", unNormalizedDir.magnitude);
     }
     
     public void Hit(int damage)

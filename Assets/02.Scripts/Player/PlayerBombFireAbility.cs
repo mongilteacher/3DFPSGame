@@ -86,6 +86,7 @@ public class PlayerBombFireAbility : MonoBehaviour
             Rigidbody rigidbody = bomb.GetComponent<Rigidbody>();
             rigidbody.velocity = Vector3.zero;
             rigidbody.AddForce(Camera.main.transform.forward * ThrowPower, ForceMode.Impulse);
+            rigidbody.AddTorque(Camera.main.transform.forward * ThrowPower, ForceMode.Impulse);
         }
     }
 }

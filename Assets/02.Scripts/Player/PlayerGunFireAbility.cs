@@ -1,7 +1,5 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Security.Cryptography;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -21,8 +19,6 @@ public class PlayerGunFireAbility : MonoBehaviour
     private const float ZoomOutDuration = 0.2f;
     private float _zoomProgress; // 0 ~ 1
     
-    
-
     public GameObject CrosshairUI;
     public GameObject CrosshairZoomUI;
     
@@ -45,9 +41,17 @@ public class PlayerGunFireAbility : MonoBehaviour
 
     // 무기 이미지 UI
     public Image GunImageUI;
+
+
+    public List<GameObject> MuzzleEffects;
     
     private void Start()
     {
+        foreach (GameObject muzzleEffect in MuzzleEffects)
+        {
+            muzzleEffect.SetActive(false);
+        }
+        
         _animator  = GetComponentInChildren<Animator>();
 
         _currentGunIndex = 0;
@@ -195,6 +199,7 @@ public class PlayerGunFireAbility : MonoBehaviour
         
         _timer += Time.deltaTime;
         
+        
         // 1. 만약에 마우스 왼쪽 버튼을 누른 상태 && 쿨타임이 다 지난 상태 && 총알 개수 > 0
         if (Input.GetMouseButton(0) && _timer >= CurrentGun.FireCooltime && CurrentGun.BulletRemainCount > 0)
         {
@@ -205,12 +210,14 @@ public class PlayerGunFireAbility : MonoBehaviour
                 _isReloading = false;
             }
             
-            _animator.SetTrigger("Shoot");
             
             CurrentGun.BulletRemainCount -= 1;
             RefreshUI();
-            
+
             _timer = 0;
+
+            StartCoroutine(MuzzleEffectOn_Coroutine());
+            
             
             // 2. 레이(광선)을 생성하고, 위치와 방향을 설정한다.
             Ray ray = new Ray(Camera.main.transform.position, Camera.main.transform.forward);
@@ -235,7 +242,19 @@ public class PlayerGunFireAbility : MonoBehaviour
                 HitEffect.Play();
             }
         }
+    }
+
+    private IEnumerator MuzzleEffectOn_Coroutine()
+    {
+        // 총 이펙트 중 하나를 켜준다.
+        int randomIndex = Random.Range(0, MuzzleEffects.Count);
+        MuzzleEffects[randomIndex].SetActive(true);
+
+        // 0.1초 후...
+        yield return new WaitForSeconds(0.1f);
         
+        // 꺼준다. 
+        MuzzleEffects[randomIndex].SetActive(false);
     }
 
     private void RefreshGun()

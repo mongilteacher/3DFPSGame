@@ -144,7 +144,6 @@ MonoBehaviour:
   Damage: 10
   KnockbackPower: 0.5
   PatrolTarget: {fileID: 0}
-  BloodPrefab: {fileID: 1000013355911406, guid: d32aa916f50cac94db11e6f19821a58f, type: 3}
 --- !u!195 &1025859594972254578
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -670,6 +669,10 @@ PrefabInstance:
       propertyPath: m_Controller
       value: 
       objectReference: {fileID: 9100000, guid: 1b83c4cd28135ac4b884545d3fa710eb, type: 2}
+    - target: {fileID: -6057140222963153312, guid: 8f7380da49034cd488ddff94b1ac35d1, type: 3}
+      propertyPath: m_UpdateMode
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: -6057140222963153312, guid: 8f7380da49034cd488ddff94b1ac35d1, type: 3}
       propertyPath: m_ApplyRootMotion
       value: 0

@@ -7,9 +7,10 @@ using UnityEngine.UI;
 // -> 게임 전체의 상태를 알리고, 시작과 끝을 텍스트로 나타낸다.
 public enum GameState
 {
-    Ready, // 준비
-    Go, // 시작
-    Over,  // 오버
+    Ready,  // 준비
+    Go,     // 시작
+    Pause,  // 일시정지
+    Over,   // 오버
 }
 public class GameManager : MonoBehaviour
 {
@@ -21,6 +22,8 @@ public class GameManager : MonoBehaviour
     public TextMeshProUGUI StateTextUI;
 
     public Color GoStateColor;
+
+    public UI_OptionPopup OptionUI; 
 
     private void Awake()
     {
@@ -58,7 +61,26 @@ public class GameManager : MonoBehaviour
         StateTextUI.gameObject.SetActive(true);
         Refresh();
     }
+
+    public void Pause()
+    {
+        State = GameState.Pause;
+        Time.timeScale = 0f;
+    }
+    public void Continue()
+    {
+        State = GameState.Go;
+        Time.timeScale = 1f;
+    }
     
+    public void OnOptionButtonClicked()
+    {
+        Debug.Log("옵션 버튼 클릭");
+
+        Pause();
+        
+        OptionUI.Open();
+    }
     
     
     
@@ -87,6 +109,6 @@ public class GameManager : MonoBehaviour
                 break;
             }
         
-    }
+        }
     }
 }

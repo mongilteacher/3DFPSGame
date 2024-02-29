@@ -63,7 +63,7 @@ public class PlayerMoveAbility : MonoBehaviour, IHitable
     // 3. 벽을 타겠다.
 
     public int Health;
-    public int MaxHealth = 100;
+    public int MaxHealth = 1000000000;
     public Slider HealthSliderUI;
 
 

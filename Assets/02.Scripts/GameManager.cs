@@ -23,7 +23,9 @@ public class GameManager : MonoBehaviour
 
     public Color GoStateColor;
 
-    public UI_OptionPopup OptionUI; 
+    public UI_OptionPopup OptionUI;
+    public UI_GameoverPopup GameOverUI;    
+    
 
     private void Awake()
     {
@@ -59,6 +61,8 @@ public class GameManager : MonoBehaviour
     // 5. 플레이어 체력이 0이 되면 "게임 오버" 상태
     public void GameOver()
     {
+        GameOverUI.Open();
+
         State = GameState.Over;
         StateTextUI.gameObject.SetActive(true);
         Refresh();
@@ -77,6 +81,11 @@ public class GameManager : MonoBehaviour
     
     public void OnOptionButtonClicked()
     {
+        if (State == GameState.Over)
+        {
+            return;
+        }
+        
         Debug.Log("옵션 버튼 클릭");
 
         Pause();
